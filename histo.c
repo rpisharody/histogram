@@ -1,12 +1,10 @@
 // To Do :
-// 1. Output Fancy lines only on option --fancy
-//    Default output is a list, <Lower Limit> <Bin Count>
 // 
-// 2. Set Precision of output
+// 1. Set Precision of output
 //    Precision depends on the resolution provided
 //    Default : 0.00 (2 Digits)
 //
-// 3. Separate Usage() to a function
+// 2. Clean up Usage() function
 //
 // Author : Rahul Rajan (rahul.rajan@ansys.com)
 // histo 1.1
@@ -31,8 +29,11 @@ using std::string;  using std::ifstream;
 using std::cerr;
 
 istream& rd(istream&, vector<double>&, const double&, const int&);
+void print_usage (void);
 
 int main(int argc, char **argv) {
+
+    int VERBOSE_FLAG = 0;
 
     int c;
     double res = 1.0;
@@ -40,13 +41,14 @@ int main(int argc, char **argv) {
     int col = 1;
     static struct option long_options[] =
     {
-        {"res", required_argument, 0, 'r'},
-        {"mul", required_argument, 0, 'm'},
-        {"col", required_argument, 0, 'c'},
+        {"res",     required_argument, 0, 'r'},
+        {"mul",     required_argument, 0, 'm'},
+        {"col",     required_argument, 0, 'c'},
+	{"verbose", no_argument,       0, 'v'}, 
         {0, 0, 0, 0}
     };
     int option_index = 0;
-    while ((c = getopt_long (argc, argv, "r:m:c:", long_options, &option_index)) != -1) {
+    while ((c = getopt_long (argc, argv, "r:m:c:v", long_options, &option_index)) != -1) {
         switch (c) {
             case 'r': {
                 res = atof (optarg);
@@ -59,10 +61,14 @@ int main(int argc, char **argv) {
             case 'c': {
                 col = atoi(optarg);
                 break; }
+	
+	    case 'v':
+	        VERBOSE_FLAG = 1;
+		break;
             
             case '?' : {
-                cout << "Usage : histo [-r | -m | -c] [file | STDIN]\n" 
-                     << endl;
+		print_usage ();
+		return (1);
                 return (1);
                 break;
                        }
@@ -113,8 +119,12 @@ int main(int argc, char **argv) {
         }
     }
 
-    for(map<double, int>::iterator it = histo.begin(); it != histo.end(); ++it) 
-        cout << "[" << it->first << ", " << (it->first + res) << ") => " << it -> second << endl;
+    for(map<double, int>::iterator it = histo.begin(); it != histo.end(); ++it)
+	    if (VERBOSE_FLAG) 
+		    cout << "[" << it->first << ", " << (it->first + res) << ") => " << it -> second << endl;
+	    else
+		    cout << it->first << " " << it->second << endl;
+
 }
 
 istream& rd(istream& in, vector<double>& x, const double& m, const int& c) {
@@ -132,4 +142,16 @@ istream& rd(istream& in, vector<double>& x, const double& m, const int& c) {
         }
     }
     return in;
+}
+
+void print_usage (void) {
+       // cout << "Usage : histo [-r | -m | -c] [file | STDIN]\n" 
+       //      << endl;
+	cout << "Usage : histo [OPTIONS] [file | STDIN] \n"
+	     << endl
+	     << "OPTIONS" << endl
+	     << "-r, --res <resolution>" << endl
+	     << "-m, --mul <multiplication_factor>" << endl
+	     << "-c, --col <column number>" << endl
+	     << "-v, --verbose" << endl ;
 }
