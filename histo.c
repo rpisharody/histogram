@@ -45,33 +45,37 @@ int main(int argc, char **argv) {
         {"mul",     required_argument, 0, 'm'},
         {"col",     required_argument, 0, 'c'},
 	{"verbose", no_argument,       0, 'v'}, 
+	{"help",    no_argument,       0, 'h'},
         {0, 0, 0, 0}
     };
     int option_index = 0;
-    while ((c = getopt_long (argc, argv, "r:m:c:v", long_options, &option_index)) != -1) {
+    while ((c = getopt_long (argc, argv, "r:m:c:vh", long_options, &option_index)) != -1) {
         switch (c) {
-            case 'r': {
+            case 'r': 
                 res = atof (optarg);
-                break; }
+                break; 
 
-            case 'm': {
+            case 'm': 
                 mul = atof(optarg);
-                break;}
+                break;
 
-            case 'c': {
+            case 'c': 
                 col = atoi(optarg);
-                break; }
+                break; 
 	
 	    case 'v':
 	        VERBOSE_FLAG = 1;
 		break;
+
+	    case 'h':
+	        print_usage ();
+		return 0;
             
-            case '?' : {
+            case '?' : 
 		print_usage ();
 		return (1);
                 return (1);
                 break;
-                       }
 
             default: abort();
         }
