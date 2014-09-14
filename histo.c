@@ -7,7 +7,9 @@
 // 2. Clean up Usage() function
 //
 // Author : Rahul Rajan (rahul.rajan@ansys.com)
-// histo 1.1
+// histo 1.2
+
+#define VERSION 1.2
 
 #include <cmath>
 #include <iostream>
@@ -44,8 +46,8 @@ int main(int argc, char **argv) {
         {"res",     required_argument, 0, 'r'},
         {"mul",     required_argument, 0, 'm'},
         {"col",     required_argument, 0, 'c'},
-	{"verbose", no_argument,       0, 'v'}, 
-	{"help",    no_argument,       0, 'h'},
+        {"verbose", no_argument,       0, 'v'}, 
+        {"help",    no_argument,       0, 'h'},
         {0, 0, 0, 0}
     };
     int option_index = 0;
@@ -151,6 +153,7 @@ istream& rd(istream& in, vector<double>& x, const double& m, const int& c) {
 void print_usage (void) {
        // cout << "Usage : histo [-r | -m | -c] [file | STDIN]\n" 
        //      << endl;
+    cout << "histo : A generic histogram utility" << endl << endl;
 	cout << "Usage : histo [OPTIONS] [file | STDIN] \n"
 	     << endl
 	     << "OPTIONS" << endl
@@ -158,4 +161,6 @@ void print_usage (void) {
 	     << "-m, --mul <multiplication_factor>" << endl
 	     << "-c, --col <column number>" << endl
 	     << "-v, --verbose" << endl ;
+    cout << endl << "histo " << VERSION;
+    cout << endl << "Written by Rahul (rahul.rajan@ansys.com)" << endl;
 }
