@@ -162,5 +162,5 @@ void print_usage (void) {
 	     << "-c, --col <column number>" << endl
 	     << "-v, --verbose" << endl ;
     cout << endl << "histo " << VERSION;
-    cout << endl << "Written by Rahul (rahul.rajan@ansys.com)" << endl;
+    cout << endl << "Written by Rahul" << endl;
 }
