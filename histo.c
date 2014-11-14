@@ -107,7 +107,7 @@ int main(int argc, char **argv) {
     map<double, int> histo;
     
     // Initialise the bins. Set the bins to be 0
-    for (double ii = xmin; ii <= xmax; ii += res)
+    for (double ii = xmin - res; ii <= xmax + res; ii += res)
         histo[ii] = 0;
     //for(map<double, int>::iterator it = histo.begin(); it != histo.end(); ++it) 
     //    cout << "[" << it->first << ", " << (it->first + res) << ") => " << it -> second << endl;
